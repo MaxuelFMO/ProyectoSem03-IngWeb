@@ -1,0 +1,75 @@
+:root {
+  --color-primary: #004b8d;
+  --color-primary-soft: #e6f0fa;
+  --color-accent: #ffbf00;
+  --color-text: #222222;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --radius: 8px;
+  --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.06);
+  --font-main: "Segoe UI", sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  color: var(--color-text);
+  background: #f5f7fb;
+}
+
+.preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1{
+  color: var(--color-primary);
+  text-align: center;
+  margin-top: 40px;
+}
+
+form {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    &:focus {
+      border-color: var(--color-primary);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--color-primary-soft);
+    }
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 12px;
+  } 
+
+  button:hover {
+      background: var(--color-accent);
+  } 
+}
