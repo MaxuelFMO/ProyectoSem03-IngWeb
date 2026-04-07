@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "run" : "run nodemon app.js"
+    "dev" : "nodemon app.js"
   },
   "dependencies": {
     "dotenv": "^17.4.1",

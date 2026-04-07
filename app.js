@@ -8,6 +8,17 @@ const { editarVenta } = require('./Crud/Editar');
 const { eliminarVenta } = require('./Crud/Eliminar');
 
 const server = http.createServer(async (req, res) => {
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
+
   if (req.method === 'GET' && req.url === '/') {
     fs.readFile(path.join(__dirname, 'views', 'index.html'), (err, data) => {
       if (err) {
