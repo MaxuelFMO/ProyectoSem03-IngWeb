@@ -1,0 +1,72 @@
+/* Styles for form page */
+:root {
+  --color-primary: #004b8d;
+  --color-accent: #ffbf00;
+  --color-text: #222222;
+  --color-border: #e5e7eb;
+  --radius: 8px;
+  --font-main: "Segoe UI", sans-serif;
+}
+
+body {
+  font-family: var(--font-main);
+  background: #f5f7fb;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  color: var(--color-primary);
+  text-align: center;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--color-accent);
+}
+
+#message {
+  margin: 20px 0;
+  text-align: center;
+  color: green;
+}
+
+a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: var(--color-primary);
+  text-decoration: none;
+}

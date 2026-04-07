@@ -1,5 +1,7 @@
 const { connectDB } = require('../Back/Connection');
 
-async function eliminarVenta(datos) {
+async function editarVenta(datos) {
   const connection = await connectDB();
 }
+
+module.exports = { editarVenta };

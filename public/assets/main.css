@@ -69,7 +69,21 @@ form {
     margin-top: 12px;
   } 
 
-  button:hover {
-      background: var(--color-accent);
-  } 
+nav {
+  text-align: center;
+  margin: 20px 0;
+}
+
+nav a {
+  display: inline-block;
+  margin: 0 10px;
+  padding: 10px 20px;
+  background: var(--color-primary);
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--radius);
+}
+
+nav a:hover {
+  background: var(--color-accent);
 }

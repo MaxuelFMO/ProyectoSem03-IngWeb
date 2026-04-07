@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nueva Venta</title>
+  <link rel="stylesheet" href="/assets/form.css">
+</head>
+<body>
+  <h1>Nueva Venta</h1>
+  <form id="ventaForm">
+    <label for="cliente">Cliente:</label>
+    <input type="text" id="cliente" name="cliente" required>
+
+    <label for="producto">Producto:</label>
+    <input type="text" id="producto" name="producto" required>
+
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" name="cantidad" min="1" required>
+
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" name="precio" step="0.01" min="0" required>
+
+    <button type="submit">Guardar</button>
+  </form>
+  <div id="message"></div>
+  <a href="/">Volver</a>
+
+  <script>
+    document.getElementById('ventaForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = new URLSearchParams(formData);
+
+      try {
+        const response = await fetch('/api/crear', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: data
+        });
+        const result = await response.json();
+        document.getElementById('message').textContent = result.success ? 'Venta guardada' : 'Error';
+      } catch (err) {
+        document.getElementById('message').textContent = 'Error de conexión';
+      }
+    });
+  </script>
+</body>
+</html>
