@@ -30,5 +30,4 @@ async function eliminarVenta(id) {
     }
   }
 }
-
 module.exports = { eliminarVenta };
