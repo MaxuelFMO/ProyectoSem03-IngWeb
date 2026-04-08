@@ -1,33 +1,34 @@
-const { connectDB } = require('../Back/Connection');
+const { connectDB } = require('./Connection');
 
 async function eliminarVenta(id) {
-  let connection;
-  try {
-    connection = await connectDB();
-    if (!id) {
-      throw new Error('ID de venta requerido');
+    let connection;
+
+    try {
+        if (!id || isNaN(id) || id <= 0) {
+            return { success: false, mensaje: "Error: ID no válido." };
+        }
+        connection = await connectDB();
+        const [filas] = await connection.execute(
+            "SELECT id FROM ventas WHERE id = ?", 
+            [id]
+        );
+
+        if (filas.length === 0) {
+            return { success: false, mensaje: "Error: La venta no existe." };
+        }
+        await connection.execute(
+            "DELETE FROM ventas WHERE id = ?", 
+            [id]
+        );
+        return { success: true, mensaje: "Venta eliminada correctamente." };
+    } catch (err) {
+        console.error("Error al eliminar:", err);
+        return { success: false, mensaje: "Error interno al eliminar" };
+    } finally {
+        if (connection) {
+            await connection.end();
+        }
     }
-    
-    const query = 'DELETE FROM ventas WHERE id = ?';
-    const [result] = await connection.execute(query, [id]);
-    
-    if (result.affectedRows === 0) {
-      throw new Error('Venta no encontrada');
-    }
-    
-    console.log('✅ Venta eliminada con ID:', id);
-    return result;
-  } catch (err) {
-    console.error('❌ Error al eliminar venta:', err.message);
-    throw err;
-  } finally {
-    if (connection) {
-      try {
-        await connection.end();
-      } catch (e) {
-        console.error('Error al cerrar conexión:', e.message);
-      }
-    }
-  }
 }
+
 module.exports = { eliminarVenta };
