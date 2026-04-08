@@ -29,6 +29,8 @@
     <h2>Total</h2>
     <div id="total">$0.00</div>
   </div>
+
+
   <a href="/">Volver</a>
 
   <script>
@@ -63,27 +65,59 @@
         totalEl.textContent = `$${total.toFixed(2)}`;
       });
 
-      actualizarVisualizacion();
-    });
+      const form = document.getElementById('ventaForm');
 
-    document.getElementById('ventaForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const data = new URLSearchParams(formData);
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      try {
-        const response = await fetch('/api/crear', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: data
+        // Obtener valores directamente para asegurar precisión
+        const cliente = document.getElementById('cliente').value.trim();
+        const producto = document.getElementById('producto').value.trim();
+        const cantidad = parseInt(document.getElementById('cantidad').value, 10);
+        const precio = parseFloat(document.getElementById('precio').value);
+
+        // Validación básica
+        if (!cliente || !producto || cantidad < 1 || precio <= 0) {
+          alert('Por favor, completa todos los campos correctamente');
+          return;
+        }
+
+        const data = new URLSearchParams({
+          cliente,
+          producto,
+          cantidad: cantidad.toString(),
+          precio: precio.toString()
         });
-        const result = await response.json();
-        document.getElementById('message').textContent = result.success ? 'Venta guardada' : 'Error';
-      } catch (err) {
-        document.getElementById('message').textContent = 'Error de conexión';
-      }
+
+        console.log('Enviando datos:', { cliente, producto, cantidad, precio });
+
+        try {
+          const response = await fetch('/api/crear', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data
+          });
+
+          const result = await response.json().catch(() => ({ success: false, error: 'Respuesta inválida del servidor' }));
+
+          if (response.ok && result.success) {
+            alert(`¡Venta guardada exitosamente! (ID: ${result.id})`);
+            // Limpiar formulario
+            form.reset();
+            document.getElementById('total').textContent = '$0.00';
+            actualizarVisualizacion();
+          } else {
+            alert(`Error: ${result.error || 'Error al guardar la venta'}`);
+          }
+        } catch (err) {
+          console.error('Error:', err);
+          alert(`Error de conexión: ${err.message}`);
+        }
+      });
+
+      actualizarVisualizacion();
     });
   </script>
 </body>

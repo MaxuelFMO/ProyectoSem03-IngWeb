@@ -1,7 +1,14 @@
 {
+  "name": "sistema-ventas",
+  "version": "2.0.0",
+  "description": "Sistema de Ventas en Node.js con MySQL - Optimizado para XAMPP",
+  "main": "app.js",
   "scripts": {
-    "dev" : "nodemon app.js"
+    "start": "node app.js"
   },
+  "keywords": ["ventas", "crud", "nodejs", "mysql"],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^17.4.1",
     "mysql2": "^3.20.0"

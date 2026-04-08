@@ -68,6 +68,7 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       const datos = querystring.parse(body);
       try {
+        console.log('📨 Recibiendo venta:', datos);
         const id = await insertarVenta({
           cliente: datos.cliente,
           producto: datos.producto,
@@ -77,18 +78,21 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, id }));
       } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: false, error: 'Error al insertar venta' }));
+        console.error('❌ Error en POST /api/crear:', err.message);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message || 'Error al insertar venta' }));
       }
     });
   } else if (req.method === 'GET' && req.url === '/api/listar') {
     try {
+      console.log('📊 Listando ventas...');
       const ventas = await listarVentas();
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(ventas));
+      res.end(JSON.stringify({ success: true, data: ventas }));
     } catch (err) {
+      console.error('❌ Error en GET /api/listar:', err.message);
       res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ success: false, error: 'Error al listar ventas' }));
+      res.end(JSON.stringify({ success: false, error: err.message || 'Error al listar ventas' }));
     }
   } else if (req.method === 'PUT' && req.url === '/api/editar') {
     let body = '';
@@ -98,12 +102,14 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       const datos = querystring.parse(body);
       try {
+        console.log('✏️  Editando venta:', datos.id);
         await editarVenta(datos);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true }));
       } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: false, error: 'Error al editar venta' }));
+        console.error('❌ Error en PUT /api/editar:', err.message);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message || 'Error al editar venta' }));
       }
     });
   } else if (req.method === 'DELETE' && req.url === '/api/eliminar') {
@@ -114,12 +120,14 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       const datos = querystring.parse(body);
       try {
+        console.log('🗑️  Eliminando venta:', datos.id);
         await eliminarVenta(datos.id);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true }));
       } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: false, error: 'Error al eliminar venta' }));
+        console.error('❌ Error en DELETE /api/eliminar:', err.message);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message || 'Error al eliminar venta' }));
       }
     });
   } else {
@@ -128,7 +136,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

@@ -1,13 +1,11 @@
-require('dotenv').config();
-
 const mysql = require('mysql2/promise');
 
 const connectionConfig = {
-  host: process.env.SERVERNAME,
-  user: process.env.USERNAME,
-  password: process.env.PASSWORD,
-  database: process.env.DBNAME,
-  port: parseInt(process.env.PORT)
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "ventas_db",
+  port: 3306
 };
 
 async function connectDB() {
